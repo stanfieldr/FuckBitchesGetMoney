@@ -1,8 +1,12 @@
 module.exports = function(loans) {
   // Remove potential off statistics
   loans = loans.filter(function(loan) {
-    var percent = loan.fundedAmount / loan.loanAmount;
-    return percent >= 0.5;
+    let percent  = loan.fundedAmount / loan.loanAmount;
+
+    let isClose  = percent >= 0.5 && percent < 100;
+    let isStupid = loan.pubRec !== 0 || loan.pubRecBankruptcies !== 0 || loan.mthsSinceLastMajorDerog !== null;
+
+    return isClose && !isStupid;
   });
 
   // Put loans investors are grabbing like candy at the top
