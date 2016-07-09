@@ -1,7 +1,5 @@
-var resultSet = require('../loans.json').loans;
-
-module.exports = function() {
-  return resultSet.filter(function(loan) {
+module.exports = function(loans) {
+  return loans.filter(function(loan) {
     var year = loan.empLength >= 1;
   	var type = loan.purpose == "debt_consolidation";
   	var notDirty = loan.accNowDelinq === 0 && loan.delinq2Yrs === 0 &&

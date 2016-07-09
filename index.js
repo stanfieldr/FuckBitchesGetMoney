@@ -3,25 +3,26 @@
  * Currently only uses LendingClub. Plan to use more investment platforms in future.
  */
 
-var fs = require('fs');
+const fs = require('fs');
 
-var myLoans       = require('./my_loans.json').myNotes;
-var credible      = require('./modules/credible');
-var investorHappy = require('./modules/investor-happy');
+const resultSet = require('./loans.json').loans;
+const myLoans   = require('./my_loans.json').myNotes;
 
-// The loan algorithm to use
-var loans = credible();
+const credible      = require('./modules/credible');
+const investorHappy = require('./modules/investor-happy');
 
 // Remove loans already invested in
-loans = loans.filter(function(loan) {
+let loans = resultSet.filter(function(loan) {
 	return !myLoans.some(function(loan2) {
 		return loan2.loanId === loan.id;
 	});
 });
 
-loans = loans.map(function(loan) {
-	return loan.id;
-})
+// The loan algorithm to use
+loans = investorHappy(loans)
+	.map(function(loan) {
+		return loan.id;
+	});
 
 fs.writeFile('results.json', JSON.stringify(loans, null, "\t"), function(err) {
 	if (err) {
