@@ -19,7 +19,7 @@ let loans = resultSet.filter(function(loan) {
 });
 
 // The loan algorithm to use
-loans = investorHappy(loans)
+loans = credible(loans)
 	.map(function(loan) {
 		return loan.id;
 	});
