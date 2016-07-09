@@ -18,6 +18,13 @@ let loans = resultSet.filter(function(loan) {
 	});
 });
 
+// Remove loans in blacklist
+loans = loans.filter(function(loan) {
+	return !require('./blacklist.json').some(function(id) {
+		return loan.id === id;
+	});
+});
+
 // The loan algorithm to use
 loans = credible(loans)
 	.map(function(loan) {

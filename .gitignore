@@ -39,3 +39,4 @@ jspm_packages
 my_loans.json
 loans.json
 results.json
+blacklist.json
