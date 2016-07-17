@@ -26,10 +26,7 @@ loans = loans.filter(function(loan) {
 });
 
 // The loan algorithm to use
-loans = credible(loans)
-	.map(function(loan) {
-		return loan.id;
-	});
+loans = credible(loans).map(loan => loan.id);
 
 fs.writeFile('results.json', JSON.stringify(loans, null, "\t"), function(err) {
 	if (err) {
