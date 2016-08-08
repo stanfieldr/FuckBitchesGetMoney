@@ -5,6 +5,7 @@ block content
   table.table.table-striped
     thead
       tr
+        th &nbsp;
         th ID
         th Age
         th Accurred Interest
@@ -16,7 +17,14 @@ block content
     tbody
       each note in notes
         tr
-          td= note.id
+          td
+            input(type="checkbox")
+          td
+            a(
+              href="https://www.lendingclub.com/account/loanPerf.action?loan_id=70612164&order_id=" + note.orderId + "&note_id=" +note.id
+              target="_blank"
+            )
+              = note.id
           td= note.age
           td= note.accruedInterest
           td= note.creditTrend

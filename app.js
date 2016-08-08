@@ -16,6 +16,7 @@ app.get('/', function(req, res) {
   notes = notes.map((note) => {
     let ret = {
       id: note.noteId,
+      orderId: note.orderId,
       accruedInterest: note.accruedInterest,
       creditTrend: note.creditTrend,
       principle: moneyRound(note.noteAmount - note.principalReceived),
