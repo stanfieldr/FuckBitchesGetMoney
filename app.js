@@ -1,6 +1,9 @@
-const express   = require('express');
-const moment    = require('moment');
-const {myNotes} = require('./my_loans.json');
+const express = require('express');
+const moment  = require('moment');
+const https   = require('https');
+const fs      = require('fs');
+
+const Settings  = require('./settings.json');
 
 const app = express();
 
@@ -12,7 +15,7 @@ function moneyRound(num) {
 }
 
 app.get('/', function(req, res) {
-  let notes = myNotes.filter(note => note.loanStatus !== 'Fully Paid');
+  let notes = require('./my_loans.json').myNotes.filter(note => note.loanStatus !== 'Fully Paid');
   notes = notes.map((note) => {
     let ret = {
       id: note.noteId,
@@ -45,6 +48,35 @@ app.get('/', function(req, res) {
   });
 
   res.render('dash', {notes});
+});
+
+app.get('/update-data', function(req, res) {
+  var options = {
+    host: 'api.lendingclub.com',
+    port: 443,
+    path: '/api/investor/v1/accounts/' + Settings.AccountID + '/detailednotes',
+    method: 'GET',
+    headers: {
+      Authorization: Settings.Token
+    }
+  };
+
+  let sReq = https.request(options, (sRes) => {
+    sRes.pipe(fs.createWriteStream(__dirname + '/my_loans.json'));
+    sRes.on('end', function() {
+      options.path = '/api/investor/v1/loans/listing?showAll=true';
+      let ssReq = https.request(options, (ssRes) => {
+        ssRes.pipe(fs.createWriteStream(__dirname + '/loans.json'));
+        ssRes.on('end', function() {
+          res.redirect('/');
+        });
+      });
+      ssReq.end();
+      ssReq.on('error', e => res.end(e));
+    });
+  });
+  sReq.end();
+  sReq.on('error', e => res.end(e));
 });
 
 app.listen(8000, function() {
