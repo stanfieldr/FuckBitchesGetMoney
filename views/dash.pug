@@ -1,0 +1,26 @@
+extends ./layouts/main.pug
+
+block content
+  h1 My Loans
+  table.table.table-striped
+    thead
+      tr
+        th ID
+        th Age
+        th Accurred Interest
+        th Credit Trend
+        th Principle Left
+        th Interest Accumulated
+        th Grade
+        th Rate
+    tbody
+      each note in notes
+        tr
+          td= note.id
+          td= note.age
+          td= note.accruedInterest
+          td= note.creditTrend
+          td= note.principle
+          td= note.interestAccumulated
+          td= note.grade
+          td= note.intRate
