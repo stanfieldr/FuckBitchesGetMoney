@@ -1,0 +1,59 @@
+extends ./layouts/main.pug
+
+block content
+  h1 Find
+
+  style.
+    ul {
+      margin: 0; padding: 0;
+      list-style-type: none;
+    }
+
+    input[type="checkbox"], select.form-control {
+      margin-right: 0.5em !important;
+    }
+
+    form {
+      margin-bottom: 1em;
+    }
+
+  form.form-inline(method="get")
+    div.form-group
+      label Get some&nbsp;
+      select.form-control.filter-type(name="filter-type")
+        option(value="all") All
+        option(value="credible") Credible
+        option(value="investor-happy") Investor Happy
+    div.form-group
+      input.form-control.btn-primary(type="submit", value="Find!")
+
+  table.table.table-striped
+    thead
+      tr
+        th ID
+        th Rate
+        th Loan Amount
+        th Debt Amount
+        th Debt Ratio
+        th Collections?
+        th Job Title
+        th Years Employed
+        th First Credit Line
+        th Credit Score
+        th Grade
+    tbody
+      each loan in loans
+        tr
+          td
+            input(type="checkbox")
+            a(href="https://www.lendingclub.com/browse/loanDetail.action?loan_id=" +loan.id + "&previous=browse", target="_blank")= loan.id
+          td= loan.intRate
+          td= loan.loanAmount
+          td= loan.revolBal
+          td= loan.dti
+          td= loan.totCollAmt
+          td= loan.empTitle
+          td= (loan.empLength / 12) + ' Years, ' + (loan.empLength % 12) + ' Months'
+          td= moment(loan.earliestCrLine).fromNow()
+          td= loan.ficoRangeLow + ' - ' + loan.ficoRangeHigh
+          td= loan.grade

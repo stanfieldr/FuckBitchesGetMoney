@@ -1,5 +1,5 @@
 module.exports = function(loans) {
-  return loans.filter(function(loan) {
+  loans = loans.filter(function(loan) {
     var year = loan.empLength >= 1;
   	var type = loan.purpose == "debt_consolidation" || loan.purpose === "home_improvement";
   	var notDirty = loan.accNowDelinq === 0 && loan.delinq2Yrs === 0 && loan.mthsSinceLastMajorDerog === null &&
@@ -13,4 +13,15 @@ module.exports = function(loans) {
 
   	return year && intRate && type && notDirty && credit && lessOpenAccounts && reasonableAmount;
   });
+
+  // Bitches love money
+  loans = loans.sort((a, b) => {
+    a = Number(a.intRate);
+    b = Number(b.intRate);
+
+    if (a === b) return 0;
+    return (a > b) ? -1 : 1;
+  });
+
+  return loans;
 };

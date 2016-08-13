@@ -7,6 +7,7 @@ const Settings  = require('./settings.json');
 
 const app = express();
 
+app.locals.moment = require('moment');
 app.set('view engine', 'pug');
 app.use(express.static('public'));
 
@@ -48,6 +49,38 @@ app.get('/', function(req, res) {
   });
 
   res.render('dash', {notes});
+});
+
+app.get('/find', function(req, res) {
+  let {loans}   = require('./loans.json');
+  let {myNotes} = require('./my_loans.json');
+  let algorithm = req.query['filter-type'];
+
+  if (!algorithm) {
+    algorithm = "all";
+  }
+
+  if (algorithm !== "all") {
+    algorithm = require('./modules/' + algorithm);
+
+    // Remove loans already invested in
+    loans = loans.filter(function(loan) {
+    	return !myNotes.some(function(note) {
+    		return note.loanId === loan.id;
+    	});
+    });
+
+    // Remove loans in blacklist
+    loans = loans.filter(function(loan) {
+    	return !require('./blacklist.json').some(function(id) {
+    		return loan.id === id;
+    	});
+    });
+
+    loans = algorithm(loans);
+  }
+
+  res.render('find', {loans});
 });
 
 app.get('/update-data', function(req, res) {
