@@ -34,6 +34,9 @@ block content
         th Rate
         th Loan Amount
         th Debt Amount
+        th Monthly Payment
+        th Monthly Income
+        th Verified Income?
         th Debt Ratio
         th Collections?
         th Job Title
@@ -50,6 +53,9 @@ block content
           td= loan.intRate
           td= loan.loanAmount
           td= loan.revolBal
+          td= loan.installment
+          td= '$' + (loan.annualInc / 12).toFixed(2).replace(/./g, (c, i, a) => i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c)
+          td= loan.isIncV
           td= loan.dti
           td= loan.totCollAmt
           td= loan.empTitle
