@@ -4,7 +4,7 @@ module.exports = function(loans) {
     let percent  = loan.fundedAmount / loan.loanAmount;
 
     let isClose  = percent >= 0.5 && percent < 1;
-    let isStupid = loan.pubRec !== 0 || loan.pubRecBankruptcies !== 0 || loan.mthsSinceLastMajorDerog !== null;
+    let isStupid = loan.pubRec !== 0 || loan.pubRecBankruptcies !== 0 || loan.mthsSinceLastMajorDerog !== null || loan.totCollAmt > 0;
 
     return isClose && !isStupid;
   });
