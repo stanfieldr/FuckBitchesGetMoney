@@ -1,8 +1,6 @@
 extends ./layouts/main.pug
 
 block content
-  h1 Find
-
   style.
     ul {
       margin: 0; padding: 0;
@@ -19,7 +17,6 @@ block content
 
   form.form-inline(method="get")
     div.form-group
-      label Get some&nbsp;
       select.form-control.filter-type(name="filter-type")
         option(value="all") All
         option(value="credible") Credible
