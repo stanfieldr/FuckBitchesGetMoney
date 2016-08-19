@@ -11,7 +11,7 @@ module.exports = function(loans) {
   	var intRate = loan.intRate >= 13 && (loan.purpose !== "home_improvement"
                || (loan.purpose === "home_improvement" && loan.intRate <= 14));
 
-    var noCollections = loan.totCollAmt === 0;
+    var noCollections = loan.totCollAmt === 0 && loan.taxLiens === 0;
 
     return year && intRate && type && notDirty && credit && lessOpenAccounts && reasonableAmount && noCollections;
   });

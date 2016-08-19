@@ -34,6 +34,7 @@ block content
         th Monthly Payment
         th Monthly Income
         th Verified Income?
+        th Mortgage Amount
         th Debt Ratio
         th Collections?
         th Job Title
@@ -53,6 +54,7 @@ block content
           td= loan.installment
           td= '$' + (loan.annualInc / 12).toFixed(2).replace(/./g, (c, i, a) => i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c)
           td= loan.isIncV
+          td= loan.mortAcc
           td= loan.dti
           td= loan.totCollAmt
           td= loan.empTitle
