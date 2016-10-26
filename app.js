@@ -16,7 +16,12 @@ function moneyRound(num) {
 }
 
 app.get('/', function(req, res) {
-  let notes = require('./my_loans.json').myNotes.filter(note => note.loanStatus !== 'Fully Paid');
+  let notes;
+  try {
+    notes = require('./my_loans.json').myNotes.filter(note => note.loanStatus !== 'Fully Paid');
+  } catch(e) {
+    notes = [];
+  }
   notes = notes.map((note) => {
     let ret = {
       id: note.noteId,
@@ -72,7 +77,14 @@ app.get('/find', function(req, res) {
 
     // Remove loans in blacklist
     loans = loans.filter(function(loan) {
-    	return !require('./blacklist.json').some(function(id) {
+      let blacklist = [];
+      try {
+        blacklist = require('./blacklist.json');
+      } catch(e) {
+
+      }
+
+    	return !blacklist.some(function(id) {
     		return loan.id === id;
     	});
     });
