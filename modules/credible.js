@@ -11,9 +11,10 @@ module.exports = function(loans) {
     var intRate = loan.intRate >= 12 && (loan.purpose !== "home_improvement"
                || (loan.purpose === "home_improvement" && loan.intRate <= 14));
 
+    var notBroke = loan.annualInc / 12 > 3000;
     var noCollections = loan.totCollAmt === 0 && loan.taxLiens === 0;
 
-    return year && intRate && type && notDirty && credit && lessOpenAccounts && reasonableAmount && noCollections;
+    return year && intRate && type && notBroke && notDirty && credit && lessOpenAccounts && reasonableAmount && noCollections;
   });
 
   // Bitches love money

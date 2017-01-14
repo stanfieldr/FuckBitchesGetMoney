@@ -18,7 +18,9 @@ function moneyRound(num) {
 app.get('/', function(req, res) {
   let notes;
   try {
-    notes = require('./my_loans.json').myNotes.filter(note => note.loanStatus !== 'Fully Paid');
+    notes = require('./my_loans.json').myNotes.filter(note => {
+      return note.loanStatus !== 'Fully Paid' && note.loanStatus !== 'Charged Off'
+    });
   } catch(e) {
     notes = [];
   }
