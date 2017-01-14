@@ -5,8 +5,9 @@ module.exports = function(loans) {
 
     let isClose  = percent >= 0.5 && percent < 1;
     let isStupid = loan.pubRec !== 0 || loan.pubRecBankruptcies !== 0 || loan.mthsSinceLastMajorDerog !== null || loan.totCollAmt > 0 || loan.taxLiens !== 0;
+    let notLowInt = loan.intRate >= 12;
 
-    return isClose && !isStupid;
+    return isClose && !isStupid && notLowInt;
   });
 
   // Put loans investors are grabbing like candy at the top
