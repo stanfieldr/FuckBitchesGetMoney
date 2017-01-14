@@ -8,12 +8,12 @@ block content
         th &nbsp;
         th ID
         th Age
-        th Accurred Interest
         th Credit Trend
-        th Principle Left
-        th Interest Accumulated
         th Grade
         th Rate
+        th Principle Left
+        th Accurred Interest
+        th Interest Accumulated
     tbody
       each note in notes
         tr
@@ -26,9 +26,9 @@ block content
             )
               = note.id
           td= note.age
-          td= note.accruedInterest
           td= note.creditTrend
-          td= note.principle
-          td= note.interestAccumulated
           td= note.grade
           td= note.intRate
+          td= note.principle
+          td= note.accruedInterest
+          td= note.interestAccumulated
