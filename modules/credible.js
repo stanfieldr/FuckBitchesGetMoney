@@ -13,8 +13,10 @@ module.exports = function(loans) {
 
     var notBroke = loan.annualInc / 12 > 3000;
     var noCollections = loan.totCollAmt === 0 && loan.taxLiens === 0;
+    let maxDTI    = loan.dti <= 30;
+    let verified  = loan.isIncV === "SOURCE_VERIFIED" || loan.isIncV === "VERIFIED";
 
-    return year && intRate && type && notBroke && notDirty && credit && lessOpenAccounts && reasonableAmount && noCollections;
+    return year && intRate && type && notBroke && notDirty && credit && lessOpenAccounts && reasonableAmount && noCollections && maxDTI && verified;
   });
 
   // Bitches love money

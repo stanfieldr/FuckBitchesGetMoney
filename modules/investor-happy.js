@@ -3,11 +3,13 @@ module.exports = function(loans) {
   loans = loans.filter(function(loan) {
     let percent  = loan.fundedAmount / loan.loanAmount;
 
-    let isClose  = percent >= 0.5 && percent < 1;
-    let isStupid = loan.pubRec !== 0 || loan.pubRecBankruptcies !== 0 || loan.mthsSinceLastMajorDerog !== null || loan.totCollAmt > 0 || loan.taxLiens !== 0;
+    let isClose   = percent >= 0.5 && percent < 1;
+    let isStupid  = loan.pubRec !== 0 || loan.pubRecBankruptcies !== 0 || loan.mthsSinceLastMajorDerog !== null || loan.totCollAmt > 0 || loan.taxLiens !== 0;
     let notLowInt = loan.intRate >= 12;
+    let maxDTI    = loan.dti <= 30;
+    let verified  = loan.isIncV === "SOURCE_VERIFIED" || loan.isIncV === "VERIFIED";
 
-    return isClose && !isStupid && notLowInt;
+    return isClose && !isStupid && notLowInt && maxDTI && verified;
   });
 
   // Put loans investors are grabbing like candy at the top
